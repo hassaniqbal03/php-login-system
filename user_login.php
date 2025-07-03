@@ -105,7 +105,8 @@ input[type="submit"]:hover {
         <h2>Login</h2>
         
         <label>Email:</label>
-        <input type="email" name="email" required value="<?= isset($_COOKIE['remember_email']) ? $_COOKIE['remember_email'] : '' ?>">
+       <input type="email" name="email" value="<?php echo htmlspecialchars($_COOKIE['remember_email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" />
+
 
         <label>Password:</label>
         <input type="password" name="password" required>

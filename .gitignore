@@ -1,0 +1,32 @@
+#  Secret Files
+.env
+*.key
+*.pem
+*.crt
+
+#  JWT or any config
+config.php
+admin_token.key
+
+
+# Composer
+/vendor/
+composer.lock
+
+# 📁 Uploads & Secure Files
+uploads/
+secure_uploads/
+export_users_to_excel.php
+serve_file.php
+
+#  VS Code & IDEs
+.idea/
+.vscode/
+
+#  OS / System Files
+.DS_Store
+*.log
+*.zip
+
+# 🧪 Reports / Debug
+snyk_report.json

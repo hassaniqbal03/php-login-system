@@ -5,6 +5,8 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
+require_once 'db.php';
+$con = get_db_connection();
 // Retrieve email from session
 if (isset($_SESSION['user'])) { 
     $email = trim($_SESSION['user']); 
@@ -15,15 +17,7 @@ if (isset($_SESSION['user'])) {
     exit;
 }
 
-$server = "127.0.0.1:3306";
-$username = "root";
-$password = "";
-$database = "form_submission";
 
-$con = mysqli_connect($server, $username, $password, $database);
-if (!$con) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
 $sql = "SELECT * FROM info WHERE email = ?";
 $stmt = mysqli_prepare($con, $sql);

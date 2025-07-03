@@ -6,15 +6,9 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-$server = "127.0.0.1:3306";
-$username = "root";
-$password = "";
-$database = "form_submission";
 
-$con = mysqli_connect($server, $username, $password, $database);
-if (!$con) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+require_once 'db.php';
+$con = get_db_connection();
 
 if (isset($_GET['email'])) {
     $email = trim($_GET['email']); 

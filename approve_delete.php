@@ -11,7 +11,9 @@ if (isset($_GET['email'])) {
 
     // Step 2: Simulate email sending (use real mail() in prod)
     $approveLink = "http://localhost/5thproject/approve_delete.php?token=$token";
-    echo "<h3>Email sent (simulated): <a href='$approveLink'>Click to approve deletion</a></h3>";
+    $safe_email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+echo "<h3>User '$safe_email' deleted successfully.</h3>";
+
 
 } elseif (isset($_GET['token'])) {
     if ($_GET['token'] === ($_SESSION['del_token'] ?? '')) {

@@ -1,8 +1,9 @@
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-       require_once 'db.php';
-    $con = get_db_connection();
+
+require_once 'db.php';
+$con = get_db_connection();
     // Collect and validate form inputs
     $errors = [];
 

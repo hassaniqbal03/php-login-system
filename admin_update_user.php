@@ -131,7 +131,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if (move_uploaded_file($pic_tmp_name, $target_pic_path)) {
                 // Delete old profile picture if a new one is uploaded
                 if (!empty($old_profile_picture) && file_exists($secure_upload_dir . $old_profile_picture)) {
-                    unlink($secure_upload_dir . $old_profile_picture);
+                   if (preg_match('/^[a-zA-Z0-9_\-\.]+$/', $old_profile_picture)) {
+    $targetPath = $secure_upload_dir . basename($old_profile_picture);
+    if (file_exists($targetPath)) {
+        unlink($targetPath);
+    }
+}else {
+    error_log("⚠️ Suspicious file delete attempt: " . $old_profile_picture);
+}
+
+
                 }
                 $profile_picture_filename = $unique_pic_name;
             } else {
@@ -156,7 +165,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if (move_uploaded_file($pdf_tmp_name, $target_pdf_path)) {
                 // Delete old PDF file if a new one is uploaded
                 if (!empty($old_file_upload) && file_exists($secure_upload_dir . $old_file_upload)) {
-                    unlink($secure_upload_dir . $old_file_upload);
+                   if (preg_match('/^[a-zA-Z0-9_\-\.]+$/', $old_file_upload)) {
+    $targetPath = $secure_upload_dir . basename($old_file_upload);
+    if (file_exists($targetPath)) {
+        unlink($targetPath);
+    }
+}else {
+    error_log(" Suspicious file delete attempt: " . $old_file_upload);
+}
+
+
                 }
                 $file_upload_filename = $unique_pdf_name;
             } else {
