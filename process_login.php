@@ -22,12 +22,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
-        if (password_verify($password, $user['password'])) {
+      if (password_verify($password, $user['password'])) {
             // JWT create
             $token = generate_jwt($user['id'], $user['email'], $user['role']);
 
             //  Securely set the auth cookie (localhost or HTTPS)
             set_auth_cookie($token);
+
+            // Set the session variable for the user
+            $_SESSION['user'] = [
+                'id' => $user['id'],
+                'email' => $user['email'],
+                'role' => $user['role']
+            ];
 
             //  Handle remember email (optional)
             if (isset($_POST['remember'])) {
@@ -48,19 +55,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($user['role'] === 'admin') {
                 header("Location: all_users.php");
             } else {
-                header("Location: dashboard.php");
+               header("Location: dashboard_user.php?just_logged_in=1");
+
             }
 
             exit;
-        } else {
-            header("Location: user_login.php?error=Incorrect password");
-            exit;
+                } else {
+                    header("Location: user_login.php?error=Incorrect password");
+                    exit;
+                }
+            } else {
+                header("Location: user_login.php?error=User not found");
+                exit;
+            }
         }
-    } else {
-        header("Location: user_login.php?error=User not found");
-        exit;
-    }
-} else {
-    header("Location: user_login.php?error=Invalid request");
-    exit;
-}

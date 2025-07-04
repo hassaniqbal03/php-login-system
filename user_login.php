@@ -146,6 +146,27 @@ Swal.fire({
 });
 </script>
 <?php endif; ?>
+<?php if (isset($_GET['error'])): ?>
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Login Failed',
+    text: '<?= htmlspecialchars($_GET['error']) ?>',
+    timer: 2500,
+    showConfirmButton: false
+});
+</script>
+<?php endif; ?>
+<?php if (isset($_GET['expired']) && $_GET['expired'] == 1): ?>
+<script>
+Swal.fire({
+    icon: 'warning',
+    title: 'Session Expired',
+    text: 'Your session has expired. Please login again.',
+    showConfirmButton: true
+});
+</script>
+<?php endif; ?>
 
 </body>
 </html>

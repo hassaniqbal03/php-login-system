@@ -1,3 +1,5 @@
+/* This PHP code snippet is handling a process to delete a user from a database after a confirmation
+step. Here's a breakdown of what the code is doing: */
 <?php
 session_start();
 require 'db.php';

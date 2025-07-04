@@ -1,16 +1,23 @@
+/* This PHP code is a part of an admin panel for managing registered users. Here is a summary of what
+the code does: */
 <?php
 session_start();
 require_once 'auth_helper.php'; // JWT helper ko include karein
 require_once 'db.php';         // Database connection function ko include karein
 
 // Verify if the user is an admin via JWT
-$admin_data = is_admin_logged_in();
-if (!$admin_data) {
-    // If not admin or JWT is invalid/expired, redirect to login page
-    header("Location: user_login.php?error=unauthorized_access");
-    exit;
-}
+$admin_data = is_admin_logged_in(); 
 
+if (!$admin_data) {
+    clear_auth_cookie(); 
+    if (isset($_SESSION['user'])) {
+        session_unset(); // Unset all session variables
+        session_destroy(); // Destroy the session
+    }
+   header("Location: user_login.php?expired=1&role=admin");
+
+    exit; // Stop script execution
+}
 $conn = get_db_connection();
 
 // --- Search Setup ---

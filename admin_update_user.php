@@ -1,3 +1,5 @@
+/* The above PHP code is a script that handles the editing of user information by an admin. Here is a
+breakdown of what the code does: */
 <?php
 session_start();
 require_once 'auth_helper.php'; // JWT helper

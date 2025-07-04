@@ -1,3 +1,5 @@
+/* This PHP script is designed to allow an admin user to edit the profile information of a specific
+user in an admin panel. Here is a breakdown of what the code does: */
 <?php
 session_start();
 require_once 'auth_helper.php'; // JWT helper

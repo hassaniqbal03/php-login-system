@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['user'])) {
-    header("Location: view.php");
+    header("Location: user_view.php");
     exit;
 }
 ?>
@@ -121,7 +121,7 @@ if (isset($_SESSION['user'])) {
     </div>
    <!--  Login Redirect Button -->
 <div class="button" style="margin-top: 10px;">
-  <button type="button" onclick="window.location.href='login.php'" style="
+  <button type="button" onclick="window.location.href='user_login.php'" style="
       width: 100%;
       padding: 10px;
       background-color: #007bff;
@@ -161,10 +161,16 @@ if (isset($_SESSION['user'])) {
     });
 </script>
 <?php endif; ?>
+<?php if (isset($_GET['error'])): ?>
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Validation Error',
+    text: '<?= htmlspecialchars($_GET["error"]) ?>',
+    showConfirmButton: true
+});
+</script>
+<?php endif; ?>
 
 </body>
 </html>
-
-
-
-

@@ -1,3 +1,4 @@
+This is a sample content of a `.gitignore` file. The `.gitignore` file is used in Git to specify files and directories that should be ignored and not tracked by Git.
 #  Secret Files
 .env
 *.key

@@ -1,3 +1,5 @@
+/* This PHP script is responsible for displaying the details of a user in an admin view. Here's a
+breakdown of what the script does: */
 <?php
 session_start();
 require_once 'auth_helper.php';

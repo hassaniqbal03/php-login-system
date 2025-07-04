@@ -1,3 +1,5 @@
+/* This PHP script is responsible for deleting a user record from a database along with any associated
+files stored on the server. Here is a breakdown of what the script does: */
 <?php
 session_start();
 require_once 'auth_helper.php'; // JWT helper

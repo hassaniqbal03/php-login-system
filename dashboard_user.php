@@ -7,7 +7,8 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-$email = $_SESSION['user'];
+$email = $_SESSION['user']['email'];
+
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +17,7 @@ $email = $_SESSION['user'];
     <meta charset="UTF-8">
     <title>Welcome Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -74,8 +76,9 @@ $email = $_SESSION['user'];
         <h2>Welcome!</h2>
         <a class="btn" href="user_edit.php?email=<?= urlencode($email) ?>">✏️ Edit Details</a>
         <a class="btn" href="user_view.php?email=<?= urlencode($email) ?>">👁️ View Profile</a>
-        <a class="btn" href="user_delete.php?email=<?= urlencode($email) ?>" onclick="return confirm('Are you sure to delete your account?')">🗑️ Delete Account</a>
-        <a class="btn btn-logout" href="logout.php" onclick="return confirm('Are you sure to logout your account?')">🚪 Logout</a>
+      <a class="btn" href="#" id="deleteBtn"> Delete Account</a>
+      <a class="btn btn-logout" href="#" id="logoutBtn"> Logout</a>
+
     </div>
 
     <!-- Optional: show popup after login -->
@@ -90,5 +93,42 @@ $email = $_SESSION['user'];
         });
     </script>
     <?php endif; ?>
+    <script>
+    // Logout SweetAlert
+    document.getElementById("logoutBtn").addEventListener("click", function(e) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to logout!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, logout!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "logout.php";
+            }
+        });
+    });
+
+    // Delete Account SweetAlert
+    document.getElementById("deleteBtn").addEventListener("click", function(e) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Your account will be permanently deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Replace with actual delete link
+                window.location.href = "user_delete.php?email=<?= urlencode($email) ?>";
+            }
+        });
+    });
+</script>
+
 </body>
 </html>

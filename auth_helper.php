@@ -11,7 +11,7 @@ function generate_jwt($user_id, $email, $role) {
     global $jwt_secret_key;
 
     $issuedAt = time();
-    $expirationTime = $issuedAt + 600; // 10 minutes
+    $expirationTime = $issuedAt + 120; // 2 minutes
 
     $payload = [
         'iat' => $issuedAt,
@@ -44,7 +44,7 @@ function set_auth_cookie($token) {
     setcookie("auth_token", $token, [
         'expires' => time() + 600,
         'path' => '/',
-        'secure' => !$is_localhost,   // only true for HTTPS
+        'secure' => !$is_localhost,   
         'httponly' => true,
         'samesite' => 'Lax'
     ]);

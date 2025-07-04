@@ -4,10 +4,11 @@ session_start();
 require_once 'auth_helper.php'; // JWT helper ko include karein
 
 // Verify if the user is an admin via JWT
-$admin_data = is_admin_logged_in();
-if (!$admin_data) {
-    // If not admin or JWT is invalid/expired, redirect to login page
-    header("Location: user_login.php?error=unauthorized_admin");
+$admin = is_admin_logged_in();
+
+if (!$admin) {
+    clear_auth_cookie(); // Optional, to fully clear cookie
+    header("Location: user_login.php?error=session_expired");
     exit;
 }
 
@@ -124,7 +125,10 @@ $conn->close(); // Close DB connection
 <body>
     <div class="container">
         <h2>Admin Dashboard</h2>
-        <p style="text-align: center; font-size: 1.1em;">Welcome, Admin! (<?= htmlspecialchars($admin_data['email']) ?>)</p>
+      <p style="text-align: center; font-size: 1.1em;">
+    Welcome, Admin! (<?= htmlspecialchars($admin_data->email) ?>)
+</p>
+
 
         <div class="stats-grid">
             <div class="stat-card">
