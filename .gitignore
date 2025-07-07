@@ -8,7 +8,7 @@ This is a sample content of a `.gitignore` file. The `.gitignore` file is used i
 #  JWT or any config
 config.php
 admin_token.key
-
+crsf_helper.php
 
 # Composer
 /vendor/

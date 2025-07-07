@@ -1,11 +1,16 @@
 <!-- user editt function -->
 <?php
 session_start();
+require_once 'csrf_helper.php';
+require_once 'auth_helper.php';
+$user_data = is_user_logged_in(); 
+if (!$user_data) { exit; }
 if (!isset($_SESSION['user'])) {
     header("Location:user_login.php");
     exit;
 }
-
+// Generate CSRF token for the form
+$csrf_token = generate_csrf_token();
 require_once 'db.php';
 $con = get_db_connection();
 
@@ -130,6 +135,7 @@ if ($row = mysqli_fetch_assoc($result)) {
 
     <label>Feedback:</label>
     <textarea name="feedback"><?= htmlspecialchars($row['feedback']) ?></textarea>
+     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token); ?>">
 
     <input type="submit" value="Update">
 </form>
@@ -145,7 +151,7 @@ Swal.fire({
 
 setTimeout(() => {
     window.location.href = 'user_view.php?email=<?= urlencode($_GET["email"]) ?>';
-}, 2500);
+}, 1500);
 </script>
 <?php endif; ?>
 

@@ -4,13 +4,15 @@ session_start();
 require_once 'auth_helper.php'; // JWT helper ko include karein
 
 // Verify if the user is an admin via JWT
-$admin = is_admin_logged_in();
+$admin_data = is_admin_logged_in();
 
-if (!$admin) {
-    clear_auth_cookie(); // Optional, to fully clear cookie
+
+if (!$admin_data) {
+    clear_auth_cookie(); 
     header("Location: user_login.php?error=session_expired");
     exit;
 }
+
 
 // Database connection
 require_once 'db.php';
@@ -125,8 +127,8 @@ $conn->close(); // Close DB connection
 <body>
     <div class="container">
         <h2>Admin Dashboard</h2>
-      <p style="text-align: center; font-size: 1.1em;">
-    Welcome, Admin! (<?= htmlspecialchars($admin_data->email) ?>)
+     <p style="text-align: center; font-size: 1.1em;">
+    Welcome, Admin! (<?= htmlspecialchars($admin_data['email']) ?>)
 </p>
 
 
@@ -148,9 +150,10 @@ $conn->close(); // Close DB connection
         <div class="btn-group">
             <a href="all_users.php">View All Users</a>
             <a href="logout.php" class="btn-logout">Logout</a>
+            <a href="forgot_password.php" class="btn-password">Change Password</a>
         </div>
     </div>
-
+    
     <?php if (isset($_GET['login_success']) && $_GET['login_success'] == 1): ?>
     <script>
     Swal.fire({

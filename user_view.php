@@ -1,6 +1,8 @@
 <?php
 session_start();
-
+require_once 'auth_helper.php';
+$user_data = is_user_logged_in(); 
+if (!$user_data) { exit; }
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'user') {
     session_unset();
     session_destroy();

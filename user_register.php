@@ -1,11 +1,23 @@
 <?php
 session_start();
+require_once 'csrf_helper.php';
+// Agar user already logged in hai
 if (isset($_SESSION['user'])) {
-    header("Location: user_view.php");
+    header("Location: dashboard_user.php");
     exit;
 }
-?>
-
+if (isset($_SESSION['pending_user'])) {
+    header("Location: verify_otp.php?email=" . urlencode($_SESSION['pending_user']['email']));
+    exit;
+}
+// Check agar user block hai
+if (isset($_SESSION['otp_block_until']) && time() < $_SESSION['otp_block_until']) {
+    header("Location: block_notice.php?source=login"); // Source parameter to block_notice
+    exit;
+}
+// Generate CSRF token for the form
+$csrf_token = generate_csrf_token();
+?>// 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,6 +127,7 @@ if (isset($_SESSION['user'])) {
         <textarea name="feedback" id="feedback" rows="8" placeholder="Please give your feedback"></textarea>
       </div>
     </fieldset>
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token); ?>">
 
     <div class="button">
       <input type="submit" value="Submit" />

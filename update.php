@@ -1,11 +1,18 @@
 <?php
 
 require_once 'db.php';
+require_once 'csrf_helper.php';
 $con = get_db_connection();
 
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+     if (!validate_csrf_token($_POST['csrf_token'] ?? '')) {
+        // Token invalid or missing. Log this for security monitoring.
+        error_log("CSRF attack detected or token mismatch for IP: " . $_SERVER['REMOTE_ADDR']);
+        header("Location: user_login.php?error=" . urlencode("Security check failed. Please try again.")); // Or a generic error page
+        exit;
+    }
     $email = trim($_POST['email']);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Invalid email format.";

@@ -4,7 +4,9 @@ breakdown of what the code does: */
 session_start();
 require_once 'auth_helper.php'; // JWT helper
 require_once 'db.php';         // Database connection function
-
+require_once 'csrf_helper.php';
+// Generate CSRF token for the form
+$csrf_token = generate_csrf_token();
 // Verify if the user is an admin via JWT
 $admin_data = is_admin_logged_in();
 if (!$admin_data) {
@@ -17,6 +19,13 @@ $errors = [];
 $secure_upload_dir = "D:/xampp/secure_uploads/"; // Make sure this directory exists and is writable
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    
+    if (!validate_csrf_token($_POST['csrf_token'] ?? '')) {
+        // Token invalid or missing. Log this for security monitoring.
+        error_log("CSRF attack detected or token mismatch for IP: " . $_SERVER['REMOTE_ADDR']);
+        header("Location: user_login.php?error=" . urlencode("Security check failed. Please try again.")); // Or a generic error page
+        exit;
+    }
     $user_id = isset($_POST['user_id']) ? (int)$_POST['user_id'] : 0;
     $old_profile_picture = $_POST['old_profile_picture'] ?? '';
     $old_file_upload = $_POST['old_file_upload'] ?? '';

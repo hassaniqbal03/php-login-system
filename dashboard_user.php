@@ -1,7 +1,13 @@
 <!-- //user Dashboard -->
 <?php
 session_start();
+require_once 'auth_helper.php'; // Include your auth helper
 
+$user_data = is_user_logged_in(); // This function now handles the session invalidation check
+if (!$user_data) {
+    header("Location: user_login.php"); 
+    exit;
+}
 if (!isset($_SESSION['user'])) {
     header("Location:user_login.php");
     exit;

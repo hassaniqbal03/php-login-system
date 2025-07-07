@@ -1,7 +1,16 @@
 <?php
+
 session_start();
+require_once 'csrf_helper.php';
+// Agar user already logged in hai
 if (isset($_SESSION['user'])) {
-    header("Location:user_view.php");
+    header("Location: dashboard_user.php");
+    exit;
+}
+$csrf_token = generate_csrf_token();
+// Check agar user block hai
+if (isset($_SESSION['otp_block_until']) && time() < $_SESSION['otp_block_until']) {
+    header("Location: block_notice.php?source=login"); // Source parameter to block_notice
     exit;
 }
 ?>
@@ -115,9 +124,13 @@ input[type="submit"]:hover {
             <input type="checkbox" name="remember" <?= isset($_COOKIE['remember_email']) ? 'checked' : '' ?>>
             <label>Remember Me</label>
         </div>
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token); ?>">
 
         <input type="submit" value="Login">
           
+         <div style="text-align: center; margin-top: 15px;">
+        <a href="forgot_password.php">Forgot Password?</a>
+    </div>
 
         <!-- Register Button -->
      <button type="button" onclick="window.location.href='user_register.php'" class="register-btn">Register Your Account</button>
@@ -167,6 +180,16 @@ Swal.fire({
 });
 </script>
 <?php endif; ?>
-
+<?php if (isset($_GET['reset']) && $_GET['reset'] == 1): ?>
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Password Reset Successful!',
+    text: 'You can now log in with your new password.',
+    timer: 2500, // Display for 2.5 seconds
+    showConfirmButton: false // No confirmation button
+});
+</script>
+<?php endif; ?>
 </body>
 </html>

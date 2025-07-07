@@ -4,7 +4,9 @@ user in an admin panel. Here is a breakdown of what the code does: */
 session_start();
 require_once 'auth_helper.php'; // JWT helper
 require_once 'db.php';         // Database connection function
-
+require_once 'csrf_helper.php'; 
+// Generate CSRF token for the form
+$csrf_token = generate_csrf_token();
 // Verify if the user is an admin via JWT
 $admin_data = is_admin_logged_in();
 if (!$admin_data) {
@@ -166,7 +168,7 @@ $conn->close();
 
             <label for="feedback">Feedback:</label>
             <textarea id="feedback" name="feedback" rows="5"><?= htmlspecialchars($row['feedback']) ?></textarea>
-
+             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token); ?>">
             <input type="submit" value="Update User">
         </form>
         <div class="back-link">
