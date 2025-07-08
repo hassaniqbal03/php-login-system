@@ -84,6 +84,9 @@ $email = $_SESSION['user']['email'];
         <a class="btn" href="user_view.php?email=<?= urlencode($email) ?>">👁️ View Profile</a>
       <a class="btn" href="#" id="deleteBtn"> Delete Account</a>
       <a class="btn btn-logout" href="#" id="logoutBtn"> Logout</a>
+     <a href="change_password.php" class="btn btn-ChangePassword" id="ChangePasswordbtn">
+    Change Password
+</a>
 
     </div>
 

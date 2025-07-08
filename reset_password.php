@@ -13,7 +13,7 @@ if (!$session) {
 
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // ✅ CSRF Token Validation
+    //  CSRF Token Validation
     if (!validate_csrf_token($_POST['csrf_token'] ?? '')) {
         error_log("CSRF attack detected or token mismatch on password reset for IP: " . $_SERVER['REMOTE_ADDR']);
         // Yahan session data clear karna zaroori hai agar invalid request hai
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hash = password_hash($pass, PASSWORD_DEFAULT);
         $con = get_db_connection();
 
-        // ✅ New: Generate a new session_id_version
+        //  New: Generate a new session_id_version
         $new_session_version = bin2hex(random_bytes(32)); 
 
         // Password aur session_id_version dono ko database mein update karein
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // 'forgot' session data ko clear karein kyuki process complete ho gaya
             unset($_SESSION['forgot']);
 
-            // ✅ Important: Check karein ki user current session mein logged in hai aur uski email reset kiye gaye email se match karti hai
+            //  Important: Check karein ki user current session mein logged in hai aur uski email reset kiye gaye email se match karti hai
             if (isset($_SESSION['user']) && $_SESSION['user']['email'] === $session['email']) {
                 // Agar user logged in hai, toh uske current session ki session_id_version ko update karein
                 $_SESSION['user']['session_id_version'] = $new_session_version;
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ✅ CSRF token generate karein form ke liye
+//  CSRF token generate karein form ke liye
 $csrf_token = generate_csrf_token();
 ?>
 <!DOCTYPE html>

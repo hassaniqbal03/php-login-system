@@ -9,7 +9,7 @@ $admin_data = is_admin_logged_in();
 
 if (!$admin_data) {
     clear_auth_cookie(); 
-    header("Location: user_login.php?error=session_expired");
+    header("Location: user_login.php?error=" . urlencode("Your session has expired or been invalidated. Please log in again."));
     exit;
 }
 
@@ -18,7 +18,7 @@ if (!$admin_data) {
 require_once 'db.php';
 $conn = get_db_connection();
 
-// --- Admin Dashboard Statistics (Example) ---
+// --- Admin Dashboard Statistics ---
 // Total Users
 $stmt_total_users = $conn->prepare("SELECT COUNT(id) AS total_users FROM info");
 $stmt_total_users->execute();
@@ -122,15 +122,22 @@ $conn->close(); // Close DB connection
         .btn-group a:hover { background-color: #218838; }
         .btn-logout { background-color: #dc3545; }
         .btn-logout:hover { background-color: #c82333; }
+        /* Added style for the new password button for consistency */
+        .btn-password {
+            background-color: #007bff; /* Blue for consistency */
+            color: white;
+        }
+        .btn-password:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Admin Dashboard</h2>
-     <p style="text-align: center; font-size: 1.1em;">
-    Welcome, Admin! (<?= htmlspecialchars($admin_data['email']) ?>)
-</p>
-
+        <p style="text-align: center; font-size: 1.1em;">
+            Welcome, Admin! (<?= htmlspecialchars($admin_data['email']) ?>)
+        </p>
 
         <div class="stats-grid">
             <div class="stat-card">
@@ -149,8 +156,8 @@ $conn->close(); // Close DB connection
 
         <div class="btn-group">
             <a href="all_users.php">View All Users</a>
-            <a href="logout.php" class="btn-logout">Logout</a>
-            <a href="forgot_password.php" class="btn-password">Change Password</a>
+            <a href="logout.php" class="btn-logout" id="btnlogout">Logout</a>
+            <a href="change_password.php" class="btn-password">Change Password</a>
         </div>
     </div>
     
@@ -166,5 +173,25 @@ $conn->close(); // Close DB connection
     </script>
     <?php endif; ?>
 
+    <script>
+    // Moved outside the PHP if block
+    document.getElementById("btnlogout").addEventListener("click", function(e) {
+        e.preventDefault(); // Prevent the default link action immediately
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to logout!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, logout!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "logout.php"; // Redirect only if confirmed
+            }
+        });
+    });
+    </script>
 </body>
 </html>

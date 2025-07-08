@@ -91,6 +91,92 @@ $csrf_token = generate_csrf_token();
 <head>
     <meta charset="UTF-8">
     <title>Confirm Admin Delete</title>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f6; /* Light grey background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        h2 {
+            color: #d32f2f; /* Red for deletion warning */
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+        p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        strong {
+            color: #333;
+        }
+        .error {
+            color: #c62828; /* Darker red for errors */
+            background-color: #ffebee; /* Light red background for error message */
+            border: 1px solid #c62828;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between form elements */
+        }
+        button {
+            padding: 12px 25px;
+            background: #d32f2f; /* Red for delete button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+            width: 100%; /* Full width button */
+        }
+        button:hover {
+            background: #b71c1c; /* Darker red on hover */
+        }
+        a {
+            display: inline-block; /* Make anchor tag behave like a block for padding */
+            padding: 12px 25px;
+            background: #757575; /* Grey for go back button */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+            width: 100%; /* Full width */
+            box-sizing: border-box; /* Include padding in width */
+        }
+        a:hover {
+            background: #5a5a5a; /* Darker grey on hover */
+        }
+        /* Flexbox for buttons to be side by side if desired, but here we stack them */
+        .button-group {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 15px;
+            margin-top: 25px;
+        }
+    </style>
     </head>
 <body>
     <div class="container">
