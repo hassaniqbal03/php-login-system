@@ -52,6 +52,7 @@ This is a **secure PHP-based user registration and login system** with an **admi
 ├── forgot_password.php # Initiates password reset
 ├── reset_verify.php # Verifies OTP for password reset
 ├── reset_password.php # Sets new password (now with CSRF & session update)
+├── change_password.php # Sets new password (now with CSRF & session update)
 ├── csrf_helper.php # Functions for CSRF token generation and validation
 └── README.md
 
